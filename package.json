@@ -11,7 +11,7 @@
   "engines": {
     "node": "7.0.0"
   },
-  "author": "Jason Walkow",
+  "author": "EdenTech",
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.1",
