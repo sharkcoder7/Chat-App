@@ -46,26 +46,26 @@
       //take id of seed user pass it here and assert it was removed.
       var userId = '1';
       var removed = users.removeUser(userId);
-      expect(removed[0].name).toBe('Mike');
+      expect(removed.name).toBe('Mike');
       expect(users.users.length).toBe(2);
     });
 
     it('should not remove a user', () => {
       //pass in a bogus array and make sure array has not changed.
       var removed = users.removeUser('23');
-      expect(removed[0]).toNotExist();
+      expect(removed).toNotExist();
       expect(users.users.length).toBe(3);
     });
 
     it('should find user', () => {
       var userId = '2';
       var user = users.getUser(userId);
-      expect(user[0].id).toBe(userId);
+      expect(user.id).toBe(userId);
     });
 
     it('should not find user', () => {
       //pass in bogus id and make sure you don't get a user back.
       var user = users.getUser('234');
-      expect(user).toEqual([]);
+      expect(user).toNotExist();
     });
   });

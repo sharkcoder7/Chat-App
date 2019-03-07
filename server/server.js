@@ -36,13 +36,19 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createMessage', (message, callback) => {
-    console.log('got message', message);
-    io.emit('newMessage', generateMessage(message.from, message.text));
+    var user = users.getUser(socket.id);
+
+    if(user && isRealString(message.text)) {
+      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+    }
+
     callback();
   });
 
   socket.on('createLocationMessage', (coords) => {
-    io.emit('newLocationMessage', generateLocationMessage('User', coords.latitude, coords.longitude));
+    var user = users.getUser(socket.id);
+
+    io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
   });
 
   socket.on('disconnect', () => {
@@ -50,7 +56,7 @@ io.on('connection', (socket) => {
 
     if (user) {
       io.to(user.room).emit('updateUserList', users.getUserList(user.room));
-      io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} left the room.`));
+      io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`));
     }
   });
 });
@@ -58,3 +64,9 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log(`Server is up on ${port}`);
 });
+
+
+//possible features:
+//make chatrooms case insensitive...
+//make usernames unique
+//list of currently active chatrooms in a dropdown below login form.

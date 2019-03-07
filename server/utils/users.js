@@ -9,16 +9,15 @@
       return user;
     }
     removeUser (id) {
-      var removedUser = this.users.filter((user) => user.id === id);
-      if(removedUser) {
+      var user = this.getUser(id);
+
+      if(user) {
         this.users = this.users.filter((user) => user.id !== id)
       }
-      return removedUser;
+      return user;
     }
     getUser (id) {
-      var users = this.users.filter((user) => user.id === id);
-      return users;
-
+      return this.users.filter((user) => user.id === id)[0]
     }
     getUserList (room) {
       var users = this.users.filter((user) => user.room === room);
